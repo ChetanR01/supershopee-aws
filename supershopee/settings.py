@@ -83,10 +83,11 @@ WSGI_APPLICATION = 'supershopee.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'supershopee-aws',
+        'NAME':'railway',
         'USER':'postgres',
-        'PASSWORD':'Chetan@01',
-        'HOST':'localhost',
+        'PASSWORD':'cbq5Q1ur62zaogbqRsmW',
+        'HOST':'containers-us-west-164.railway.app',
+        'PORT':'7512'
     }
 }
 
