@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+
+
+
+	<!-- banner-2 -->
+	<div class="page-head_agile_info_w3l">
+
+	</div>
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="/">Home</a>
+						<i>|</i>
+					</li>
+					<li>My Cart 🛒</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- checkout page -->
+	<div class="privacy">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">My Cart 🛒
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<div class="checkout-right">
+				<h4>Your shopping cart contains:
+					<span>{{item_count}} Products</span>
+				</h4>
+				<div class="table-responsive">
+					<form method="post" action="/create-order">
+						{% csrf_token %}
+					<table class="timetable_sub">
+						<thead>
+							<tr>
+								<th>SL No.</th>
+								<th>Product</th>
+								<th>Quality</th>
+								<th>Product Name</th>
+								<th>Price</th>
+								<th>Remove</th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							{% for item in cart %}
+							{% for product in item.products.all %}
+							<tr class="rem{{forloop.counter}}">
+								<td class="invert">{{forloop.counter}}</td>
+								<td class="invert-image">
+									<a href="/single/{{product.id}}">
+										<img src="{{product.main_img.url}}" alt=" " class="img-responsive">
+									</a>
+								</td>
+								<td class="invert">
+									<div class="quantity">
+										<div class="quantity-select">
+											<input type="number" id="quantity" name="quantity{{forloop.counter}}" min="1" value="1">
+										</div>
+									</div>
+								</td>
+								<input type="hidden" id="product_id" name="product{{forloop.counter}}" value="{{product.id}}">
+								<td class="invert">{{product.name}}</td>
+								<td class="invert">₹ {{product.price}}</td>
+								<td class="invert">
+									<div class="rem">										
+										<button type="button" class="btn btn-default btn-sm" onclick="location.href='/remove-cart/{{product.id}}' ">
+											<span class="glyphicon glyphicon-trash"></span>
+										</button>
+									</div>
+								</td>
+							</tr>
+							{% endfor %}
+							{% endfor %}
+						</tbody>
+					</table>
+					<input type="hidden" name="item_count" value="{{item_count}}" class="button" />
+					<input type="submit" name="submit" value="Checkout" class="btn btn-primary" style="margin-top: 2em;height: 4em;width: 20em;"/>
+				</form>
+				</div>
+			</div>
+			<div class="checkout-left">
+				<div class="address_form_agile">
+					<h4>Your Delivary Address</h4>
+					<form action="/update-address" method="post" class="creditly-card-form agileinfo_form">
+						{% csrf_token %}
+						<div class="creditly-wrapper wthree, w3_agileits_wrapper">
+							<div class="information-wrapper">
+								<div class="first-row">
+									<div class="controls">
+										<input class="billing-address-name" type="text" name="name" placeholder="Full Name" value="{{user.first_name}}" required="">
+									</div>
+									<div class="w3_agileits_card_number_grids">
+										<div class="w3_agileits_card_number_grid_left">
+											<div class="controls">
+												<input type="text" placeholder="Mobile Number" name="mobile_no" value="{{user.extended_user.mobile_no}}" required="">
+											</div>
+										</div>
+										<div class="w3_agileits_card_number_grid_right">
+											<div class="controls">
+												<input type="text" placeholder="Address" name="address" value="{{user.extended_user.address}}" required="">
+											</div>
+										</div>
+										<div class="clear"> </div>
+									</div>
+								</div>
+								<button class="submit check_out">Update Delivary Address</button>
+							</div>
+						</div>
+					</form>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+		</div>
+	</div>
+	<!-- //checkout page -->
+{% endblock %}

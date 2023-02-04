@@ -1,0 +1,49 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+      <h2 style="text-align: center; color: white;">Contacts <i class='fas fa-ticket-alt'></i></h2>
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products" style="min-height: unset;">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">NAME</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">SUBJECT</th>
+                    <th scope="col">VIEW DETAILS</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for contact in contacts %}
+                  <tr>
+                    <td class="tm-product-name">{{contact.name}}</td>                    
+                    <td>{{contact.date}}</td>
+                    <td>{{contact.subject}}</td>
+                    <td>
+                      <a href="/dashboard/view-contact/{{contact.id}}" class="tm-product-delete-link tm-product-delete-icon">
+                        <i class='fas fa-eye' ></i>
+                      </a>
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+   
+{% endblock content %}
+
+   

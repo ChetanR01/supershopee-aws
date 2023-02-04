@@ -1,0 +1,42 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+      <h2 style="text-align: center; color: white;">Subscribers <i class='fas fa-newspaper'></i></h2>
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products" style="min-height: unset;">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">NAME</th>
+                    <th scope="col">EMAIL</th>
+                    <th scope="col">SUBSCRIBED ON</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  {% for subscriber in subscribers %}
+                  <tr>
+                    <td class="tm-product-name">{{subscriber.name}}</td>                    
+                    <td>{{subscriber.email}}</td>
+                    <td>{{subscriber.date}}</td>
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            
+          </div>
+        </div>
+        
+      </div>
+    </div>
+   
+{% endblock content %}
+
+   

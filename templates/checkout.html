@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+	<!-- banner-2 -->
+	<div class="page-head_agile_info_w3l">
+
+	</div>
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="index.html">Home</a>
+						<i>|</i>
+					</li>
+					<li>Confirm Order</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- FAQ-help-page -->
+	<div class="faqs-w3l">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Confirm Order
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<div class="wthree-help">
+				<div class="col-xs-7 agile-left-help">
+					<h3 class="w3-head">User Details</h3>
+					<p>
+						Name: <b> {{user.first_name}}</b><br>
+						Mobile Number:<b> {{user.extended_user.mobile_no}}</b><br>
+						Address: <b>{{user.extended_user.address}}</b><br>
+						Email: <b>{{user.email}}</b>
+					</p>
+				</div>
+				
+				<div class="clearfix"></div>
+			</div>
+			<div class="faq-w3agile">
+				<h3>Order Delails</h3>
+				<br>
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>SL No.</th>
+							<th>Product</th>
+							<th>Product Name</th>
+							<th>Price</th>
+							<th>Quality</th>
+							<th>Total</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% for order in orders %}
+						<tr class="rem{{forloop.counter}}">
+							<td class="invert">{{forloop.counter}}</td>
+							<td class="invert-image">
+								<a href="/single/{{order.product.id}}">
+									<img src="{{order.product.main_img.url}}" alt=" " class="img-responsive">
+								</a>
+							</td>
+							<td class="invert">{{order.product}}</td>
+							<td class="invert">₹ {{order.price}}</td>
+							<td class="invert">
+								<div class="quantity">
+									<div class="quantity-select">
+										{{order.quantity}}
+									</div>
+								</div>
+							</td>
+							<input type="hidden" id="product_id" name="product{{forloop.counter}}" value="{{product.id}}">
+							<td class="invert">₹ {{order.total_cost}}</td>
+							
+						</tr>
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3"> <b>Grand Total</b> </td>
+							<td colspan="3"> <b>₹ {{grand_total}}</b></td>
+						</tr>
+					<tfoot>
+				</table>
+
+				{% for order in orders %}
+				{% if forloop.counter == 1 %}
+				{% if order.order_status == "pending" %}
+
+				<button type="submit" class="btn btn-primary" style="margin-top: 2em;height: 4em;width: 20em;" onclick="location.href='/confirm-order/cod/{{order_id}}'">Confirm Order (COD <i class="fa fa-money"></i> )
+				</button>
+
+				<button type="submit" class="btn btn-primary" style="margin-top: 2em;height: 4em;width: 20em;" onclick="location.href='{{payment_url}}'">Confirm Order (Pay Online <i class="fa fa-credit-card"></i> )
+				</button>
+				
+				{% endif %}
+				
+				{% if order.order_status == "confirm" %}
+				<button type="submit" class="btn btn-primary" style="margin-top: 2em;height: 4em;width: 20em;" onclick="location.href='/generate-report/{{order_id}}'">Generate Report <i class="fa fa-file-pdf-o"></i>
+				</button>
+
+				<button type="submit" class="btn btn-primary" style="margin-top: 2em;height: 4em;width: 20em;" onclick="location.href='/order-history'">Order History <i class="fa fa-history"></i>
+				</button>
+
+				{% endif %}
+
+				{% endif %}
+				{% endfor %}
+
+
+			</div>
+		</div>
+	</div>
+	<!-- //FAQ-help-page -->
+{% endblock %}

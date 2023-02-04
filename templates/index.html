@@ -1,0 +1,241 @@
+<!--
+Author: W3layouts
+Author URL: http://w3layouts.com
+License: Creative Commons Attribution 3.0 Unported
+License URL: http://creativecommons.org/licenses/by/3.0/
+-->
+{% extends "base.html" %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+
+	<!-- banner -->
+
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+		<!-- Indicators-->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+			<li data-target="#myCarousel" data-slide-to="1" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="2" class=""></li>
+			<li data-target="#myCarousel" data-slide-to="3" class=""></li>
+		</ol>
+		<div class="carousel-inner" role="listbox">
+			{% for deal in deals %}
+			{% if forloop.counter < 5 %}
+			{% if forloop.first %}
+			<div class="item active">
+				<div class="container">
+					<div class="carousel-caption">
+						<h3>
+							<span>{{deal.name}}</span>
+						</h3>
+						<p>
+							<span>{{deal.offer_line}}</span> </p>
+						<a class="button2" href="/deal-product/{{deal.id}}">Shop Now </a>
+					</div>
+				</div>
+			</div>
+			{% else %}
+			<div class="item item{{forloop.counter}}">
+				<div class="container">
+					<div class="carousel-caption">
+						<h3>
+							<span>{{deal.name}}</span>
+						</h3>
+						<p>
+							<span>{{deal.offer_line}}</span> </p>
+						<a class="button2" href="/deal-product/{{deal.id}}">Shop Now </a>
+					</div>
+				</div>
+			</div>
+			{% endif %}
+			{% endif %}
+			{% endfor %}
+			
+			
+		</div>
+		<a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+			<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+			<span class="sr-only">Previous</span>
+		</a>
+		<a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+			<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+			<span class="sr-only">Next</span>
+		</a>
+	</div>
+	<!-- //banner -->
+
+	<!-- top Products -->
+	<div class="ads-grid">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Our Top Products
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<!-- product left -->
+			<div class="side-bar col-md-3">
+				<div class="search-hotel">
+					<h3 class="agileits-sear-head">Search Here..</h3>
+					<form action="/default_search" method="GET">
+						<input type="search" placeholder="Product name..." name="search" required="">
+						<input type="submit" value=" ">
+					</form>
+				</div>
+				
+				
+				
+				<!-- deals -->
+				{% for deal in deals %}
+				{% if deal.name == "Special Deals" %}
+				<div class="deal-leftmk left-side">
+					<h3 class="agileits-sear-head">Special Deals</h3>
+					{% for product in deal.products.all %}
+					<div class="special-sec1">
+						<div class="col-xs-4 img-deals">
+							<img src="{{product.main_img.url}}" alt="">
+						</div>
+						<div class="col-xs-8 img-deal1">
+							<a href="/single/{{product.id}}"><h3>{{product.name}}</h3></a>
+							<a href="/single/{{product.id}}">${{product.price}}</a>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					{% endfor %}
+				</div>
+				{% endif %}
+				{% endfor %}
+				<!-- //deals -->
+			</div>
+			<!-- //product left -->
+			<!-- product right -->
+			<div class="agileinfo-ads-display col-md-9">
+				<div class="wrapper">
+					<!-- first section (nuts) -->
+					{% for category in all_categories %}
+					<div class="product-sec1">
+						<h3 class="heading-tittle">{{category.name}}</h3>
+						{% for product in products %}
+						{% if product.category == category and product.trending %}
+						<div class="col-md-4 product-men">
+							<div class="men-pro-item simpleCart_shelfItem">
+								<div class="men-thumb-item">
+									<img src="{{product.main_img.url}}" alt="">
+									<div class="men-cart-pro">
+										<div class="inner-men-cart-pro">
+											<a href="/single/{{product.id}}" class="link-product-add-cart">Quick View</a>
+										</div>
+									</div>
+									<span class="product-new-top">New</span>
+								</div>
+								<div class="item-info-product ">
+									<h4>
+										<a href="/single/{{product.id}}">{{product.name}}</a>
+									</h4>
+									<div class="info-product-price">
+										<span class="item_price">${{product.price}}</span>
+										<del>${{product.mrp}}</del>
+									</div>
+									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+										<form action="/add-cart/{{product.id}}" method="post">
+											{% csrf_token %}
+											<fieldset>
+												<input type="hidden" name="next" value="{{ request.path }}">
+												<input type="submit" name="submit" value="Add to cart" class="button" />
+											</fieldset>
+										</form>
+									</div>
+
+								</div>
+							</div>
+						</div>
+						{% endif %}
+						{% endfor %}
+						
+						<div class="clearfix"></div>
+					</div>
+					{% endfor %}
+					<!-- //first section (nuts) -->
+					<!-- second section (nuts special) -->
+					<div class="product-sec1 product-sec2">
+						<div class="col-xs-7 effect-bg">
+							<h3 class="">Pure Energy</h3>
+							<h6>Enjoy our all healthy Products</h6>
+							<p>Get Extra 10% Off</p>
+						</div>
+						<h3 class="w3l-nut-middle">Nuts & Dry Fruits</h3>
+						<div class="col-xs-5 bg-right-nut">
+							<img src="{% static 'images/nut1.png' %}" alt="">
+						</div>
+						<div class="clearfix"></div>
+					</div>
+					<!-- //second section (nuts special) -->
+					
+				</div>
+			</div>
+			<!-- //product right -->
+		</div>
+	</div>
+	<!-- //top products -->
+	<!-- special offers -->
+	<div class="featured-section" id="projects">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Special Offers
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<div class="content-bottom-in">
+				<ul id="flexiselDemo1">
+					{% for product in products %}
+					{% if forloop.counter < 15%}
+					<li>
+						<div class="w3l-specilamk">
+							<div class="speioffer-agile">
+								<a href="/single/{{product.id}}">
+									<img src="{{product.main_img.url}}" alt="">
+								</a>
+							</div>
+							<div class="product-name-w3l">
+								<h4>
+									<a href="/single/{{product.id}}">{{product.name}}</a>
+								</h4>
+								<div class="w3l-pricehkj">
+									<h6>${{product.price}}</h6>
+									<p>Save ${{product.mrp|sub:product.price}}</p>
+								</div>
+								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+									<form action="/add-cart/{{product.id}}" method="post">
+										{% csrf_token %}
+										<fieldset>
+											<input type="hidden" name="next" value="{{ request.path }}">
+											<input type="submit" name="submit" value="Add to cart" class="button" />
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>	
+					{% endif %}
+					{% endfor %}
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //special offers -->
+{% endblock %}
+
+
+</body>
+
+</html>

@@ -1,0 +1,117 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container tm-mt-big tm-mb-big">
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+        
+        <div class="row tm-edit-product-row">
+          <div class="col-xl-6 col-lg-6 col-md-12">
+            <form action="" method="post" class="tm-edit-product-form">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label
+                  for="name"
+                  >Name
+                </label>
+                <input
+                id="name"
+                name="name"
+                type="text"
+                class="form-control validate"
+                value="{{contact.name}}"
+                readonly style="background-color: #54657d;"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label
+                for="mobile_no"
+                >Mobile Number</label
+                >
+                <input
+                  id="mobile_no"
+                  name="mobile_no"
+                  type="text"
+                  class="form-control validate"
+                  value="{{contact.mobile_no}}"
+                  readonly style="background-color: #54657d;"
+                />                
+              </div>     
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+            <div class="form-group mb-3">
+              <label
+                for="date"
+                >Date
+              </label>
+              <input
+                id="date"
+                name="date"
+                type="datetime"
+                class="form-control validate"
+                value="{{contact.date}}"
+                readonly style="background-color: #54657d;"
+              />
+            </div>
+            <div class="form-group mb-3">
+              <label
+                for="email"
+                >Email
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="text"
+                class="form-control validate"
+                value="{{contact.email}}"
+                readonly style="background-color: #54657d;"
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-products" >
+                <div class="form-group mb-3">
+                  <label
+                    for="subject"
+                    >Subject
+                  </label>
+                  <input
+                    id="subject"
+                    name="subject"
+                    type="text"
+                    class="form-control validate"
+                    value="{{contact.subject}}"
+                    readonly style="background-color: #54657d;"
+                  />  
+                  <br><br>
+                  <div class="form-group mb-3">
+                    <label
+                      for="message"
+                      >Message</label
+                    >
+                    <textarea 
+                      style="min-height: 30em;"     
+                      class="form-control validate"
+                      rows="3"
+                      required
+                    >{{contact.message}}</textarea>
+                  </div>
+          </div>
+          </div>
+          <div class="col-12">
+            <button type="button" class="btn btn-primary btn-block text-uppercase" onclick="location.href='/dashboard/contacts'" >Back to Contacts
+            </button>
+          </div>
+
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+
+
+	<!-- banner-2 -->
+	<div class="page-head_agile_info_w3l">
+
+	</div>
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="index.html">Home</a>
+						<i>|</i>
+					</li>
+					<li>Order History</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- FAQ-help-page -->
+	<div class="faqs-w3l">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Order History
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			
+			<div class="faq-w3agile">
+				<br>
+				<table class="timetable_sub">
+					<thead>
+						<tr>
+							<th>Order Id</th>
+							<th>Date</th>
+							<th>Order Status</th>
+							<th>Payment Status</th>
+							<th>Payment Mode</th>
+							<th>Transaction Id</th>
+						</tr>
+					</thead>
+
+					<tbody>
+						{% regroup orders by order_id as order_ids %}
+
+						{% for order in order_ids %}
+						<tr class="rem{{forloop.counter}}">
+							
+							{% for record in order.list %}
+							{% if forloop.counter == 1 %}
+
+							<td class="invert">
+								<a href="/checkout/{{order.grouper}}">
+									{{order.grouper}}
+								</a>
+							</td>
+							<td class="invert">{{record.date}}</td>
+							<td class="invert">{{record.get_order_status_display}}</td>
+							<td class="invert">{{record.get_payment_status_display}}</td>
+							<td class="invert">{{record.get_payment_method_display}}</td>
+							<td class="invert">{{record.transaction_id}}</td>
+
+							{% endif %}
+							{% endfor %}
+
+							<input type="hidden" id="product_id" name="product{{forloop.counter}}" value="{{product.id}}">
+							
+						</tr>
+						{% endfor %}
+					</tbody>
+					
+				</table>
+
+			</div>
+		</div>
+	</div>
+	<!-- //FAQ-help-page -->
+{% endblock %}

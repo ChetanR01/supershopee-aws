@@ -1,0 +1,85 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container tm-mt-big tm-mb-big">
+  <h2 style="text-align: center; color: white;">Create New Deals <i class='fas fa-gift'></i></h2>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+
+        <div class="row tm-edit-product-row">
+          <div class="col-xl-6 col-lg-6 col-md-12">
+            <form action="" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label
+                  for="name"
+                  >Offer Name
+                </label>
+                {{form.name}}
+              </div>
+              <div class="form-group mb-3">
+                <label
+                  for="start_date"
+                  >Start Date</label
+                >
+                {{form.start_date}}
+              </div>              
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+              <div class="form-group mb-3">
+                <label
+                  for="name"
+                  >Banner Image
+                </label>
+                {{form.banner}}
+              </div>
+              <div class="form-group mb-3">
+                <label
+                for="end_date"
+                >End Date</label
+                >
+                {{form.end_date}}
+              </div>
+            </div>
+            
+            <div class="col-12">
+              <div class="form-group mb-3">
+                <label
+                for="offer_line"
+                >Offer Line</label
+                >
+                {{form.offer_line}}
+              </div>
+            </div>
+            
+              <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+                <div class="tm-bg-primary-dark tm-block tm-block-products">
+                  <div class="form-group mb-3">
+                  <label
+                  for="products"
+                >Products</label
+                >
+                  <div class="tm-product-table-container" style="background-color: #526d83;">                  
+                  {{form.products}}
+                  </div>
+                  </div>
+                </div>
+              </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block text-uppercase">Create New Deal</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+   
+{% endblock content %}
+
+   

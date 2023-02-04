@@ -1,0 +1,199 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+    
+    <title>Invoice {{order_id}}</title>
+
+    <style>
+        .top_rw{ background-color:#f4f4f4; }
+        .td_w{ }
+        button{ padding:5px 10px; font-size:14px;}
+        .invoice-box {
+            max-width: 890px;
+            margin: auto;
+            padding:10px;
+            border: 1px solid #eee;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+            font-size: 14px;
+            line-height: 24px;
+            font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+            color: #555;
+        }
+        .invoice-box table {
+            width: 100%;
+            line-height: inherit;
+            text-align: left;
+            border-bottom: solid 1px #ccc;
+        }
+        .invoice-box table td {
+            padding: 5px;
+            vertical-align:middle;
+        }
+        .invoice-box table tr td:nth-child(2) {
+            text-align: right;
+        }
+        .invoice-box table tr.top table td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.top table td.title {
+            font-size: 45px;
+            line-height: 45px;
+            color: #333;
+        }
+        .invoice-box table tr.information table td {
+            padding-bottom: 10px;
+        }
+        .invoice-box table tr.heading td {
+            background: #eee;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+            font-size:12px;
+        }
+        .invoice-box table tr.details td {
+            padding-bottom: 20px;
+        }
+        .invoice-box table tr.item td{
+            border-bottom: 1px solid #eee;
+        }
+        .invoice-box table tr.item.last td {
+            border-bottom: none;
+        }
+        .invoice-box table tr.total td:nth-child(2) {
+            border-top: 2px solid #eee;
+            font-weight: bold;
+        }
+        @media only screen and (max-width: 600px) {
+            .invoice-box table tr.top table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+            .invoice-box table tr.information table td {
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+        }
+        /** RTL **/
+        .rtl {
+            direction: rtl;
+            font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        }
+        .rtl table {
+            text-align: right;
+        }
+        .rtl table tr td:nth-child(2) {
+            text-align: left;
+        }
+    </style>
+
+    
+</head>
+
+<body>
+
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+		<tr class="top_rw">
+		   <td colspan="2">
+		      <h2 style="margin-bottom: 0px;"> Invoice</h2>
+              Order Date: {{rep_order.date}} 
+		   </td>
+		    <td  style="width:40%; margin-right: 10px;">
+                <h1 style="margin-bottom: 0px;">{{rep_order.get_payment_method_display}}</h1>
+		        Order Id: <b>{{order_id}}</b>
+		   </td>
+		</tr>
+            <tr class="information">
+                  <td colspan="3">
+                    <table>
+                        <tr>
+                            <td colspan="2">
+							<b> Shipping Address: {{rep_order.cutomer_name.first_name}} </b> <br>
+                                {{rep_order.address}}<br>
+                                Mo.No. {{rep_order.mobile_no}}<br>
+                                {{rep_order.cutomer_name.email}}<br>
+                            </td>
+                            <td> <b> Billing Address: {{user.first_name}} </b><br>
+                                {{user.extended_user.address}}<br>
+                                Mo.No. {{user.extended_user.mobile_no}}<br>
+                                {{user.email}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+                            <td colspan="3">
+            <table cellspacing="0px" cellpadding="2px">
+            <tr class="heading">
+                <td style="width:50%;">
+                    ITEM
+                </td>
+				<td style="width:15%; text-align:center;">
+                    QTY.
+                </td>
+                <td style="width:15%; text-align:right;">
+                    PRICE (INR)
+                </td>
+				
+				 <td style="width:20%; text-align:right;">
+                   TOTAL AMOUNT (INR)
+                </td>
+            </tr>
+            {% for order in orders %}
+			<tr class="item">
+               <td style="width:50%;">
+                    {{order.product}}
+                </td>
+				<td style="width:15%; text-align:center;">
+                    {{order.quantity}}
+                </td>
+                <td style="width:15%; text-align:right;">
+                    {{order.price}}
+                </td>
+				 <td style="width:20%; text-align:right;">
+                    {{order.total_cost}}
+                </td>
+            </tr>
+            {% endfor %}
+			
+			</table>
+            <tr class="total">
+                  <td colspan="3" align="right">  Grand Total : <b> {{grand_total}} </b> Rupees </td>
+            </tr>
+			<tr>
+			   <td colspan="3">
+			     <table cellspacing="0px" cellpadding="2px">
+				    <tr>
+			            <td width="50%">
+						<b> Thank You! </b> <br>
+                            Visit Again
+						</td>
+						<td>
+						 * This is a computer generated invoice and does not
+						  require a physical signature
+						</td>
+			        </tr>
+					 <tr>
+			            <td width="50%">
+						</td>
+						<td>
+						 	<b> Authorized Signature </b>
+							<br>
+							<br>
+							...................................
+							<br>
+							<br>
+							<br>
+						</td>
+			        </tr>
+			     </table>
+			   </td>
+			</tr>
+        </table>
+    </div>
+
+
+</body>
+</html>

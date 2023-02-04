@@ -1,0 +1,105 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-5">
+      <h1 style="text-align: center; color: white;">Orders <i class='fas fa-box-open'></i></h1>
+      <div class="row tm-content-row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+          <div class="tm-bg-primary-dark tm-block tm-block-products">
+            <div class="tm-product-table-container">
+              <table class="table table-hover tm-table-small tm-product-table">
+                <thead>
+                  <tr>
+                    <th scope="col">ORDER ID</th>
+                    <th scope="col">NAME</th>
+                    <th scope="col">ORDER DATE</th>
+                    <th scope="col">ORDER STATUS</th>
+                    <th scope="col">ADDRESS</th>
+                    <th scope="col">PAYMENT METHOD</th>
+                    <th scope="col">PAYMENT STATUS</th>
+                    <th scope="col">&nbsp;</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% regroup orders by order_id as order_ids %}
+
+                  {% for order in order_ids %}
+                  <tr>
+                    <td class="tm-product-name">{{order.grouper}}</td>
+                    {% for record in order.list %}
+                    {% if forloop.counter == 1 %}
+
+                    <td>{{record.cutomer_name.first_name}}</td>
+                    <td>{{record.date}}</td>
+
+                    {% if record.order_status == "confirm" %}
+                    <td>
+                        <div class="tm-status-circle moving">
+                        </div>{{record.get_order_status_display}}
+                    </td>
+                    {% elif record.order_status == "pending" %}
+                    <td>
+                        <div class="tm-status-circle pending">
+                        </div>{{record.get_order_status_display}}
+                    </td>
+                    {% elif record.order_status == "cancelled" %}
+                    <td>
+                        <div class="tm-status-circle cancelled">
+                        </div>{{record.get_order_status_display}}
+                    </td>
+                    {% else %}
+                    <td>
+                        <div class="tm-status-circle moving">
+                        </div>{{record.get_order_status_display}}
+                    </td>
+                    {% endif %}
+
+                    <td>{{record.address}}</td>
+                    <td>{{record.get_payment_method_display}}</td>
+
+                    {% if record.payment_status == "confirm" %}
+                    <td>
+                        <div class="tm-status-circle moving">
+                        </div>{{record.get_payment_status_display}}
+                    </td>
+                    {% elif record.payment_status == "pending" %}
+                    <td>
+                        <div class="tm-status-circle pending">
+                        </div>{{record.get_payment_status_display}}
+                    </td>
+                    {% else %}
+                    <td>
+                        <div class="tm-status-circle cancelled">
+                        </div>{{record.get_payment_status_display}}
+                    </td>
+                    {% endif %}
+
+                    {% endif %}
+                    {% endfor %}
+
+                    <td>
+                      <a href="/dashboard/update-order/{{order.grouper}}" class="tm-product-delete-link">
+                        <i class="far fa-edit tm-product-delete-icon"></i>
+                      </a>
+                    </td>
+
+                  </tr>
+                  {% endfor %}
+                 
+                </tbody>
+              </table>
+            </div>
+            <!-- table container -->
+            <a
+              href="/dashboard/create-order"
+              class="btn btn-primary btn-block text-uppercase mb-3">Create New Order</a>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+   
+{% endblock content %}
+
+   

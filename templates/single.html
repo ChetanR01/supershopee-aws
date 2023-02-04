@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load mathfilters %}
+{% block content %}
+
+
+
+	<!-- banner-2 -->
+	<div class="page-head_agile_info_w3l">
+
+	</div>
+	<!-- //banner-2 -->
+	<!-- page -->
+	<div class="services-breadcrumb">
+		<div class="agile_inner_breadcrumb">
+			<div class="container">
+				<ul class="w3_short">
+					<li>
+						<a href="index">Home</a>
+						<i>|</i>
+					</li>
+					<li>Product Details</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //page -->
+	<!-- Single Page -->
+	<div class="banner-bootom-w3-agileits">
+		{% for product in products %}
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">{{product.category}} | {{product.subcategory}}
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+
+			
+
+			<div class="col-md-5 single-right-left ">
+				<div class="grid images_3_of_2">
+					<div class="flexslider">
+						<ul class="slides">
+							<li data-thumb="{{product.img1.url}}">
+								<div class="thumb-image">
+									<img src="{{product.img1.url}}" data-imagezoom="true" class="img-responsive" alt=""> </div>
+							</li>
+							<li data-thumb="{{product.img2.url}}">
+								<div class="thumb-image">
+									<img src="{{product.img2.url}}" data-imagezoom="true" class="img-responsive" alt=""> </div>
+							</li>
+							<li data-thumb="{{product.img3.url}}">
+								<div class="thumb-image">
+									<img src="{{product.img3.url}}" data-imagezoom="true" class="img-responsive" alt=""> </div>
+							</li>
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-7 single-right-left simpleCart_shelfItem">
+				<h3>{{product.name}}</h3>
+				<p>
+					<span class="item_price">${{product.price}}</span>
+					<del>${{product.mrp}}</del>
+					<label>Free delivery</label>
+				</p>
+				<div class="single-infoagile">
+					<ul>
+						<li>
+							Cash on Delivery Eligible.
+						</li>
+						<li>
+							Shipping Speed to Delivery.
+						</li>
+						<li>
+							Save:
+							<span class="item_price">${{product.mrp|sub:product.price}}</span>
+						</li>
+					</ul>
+				</div>
+				<div class="product-single-w3l">
+					<p>
+						<i class="fa fa-hand-o-right" aria-hidden="true"></i>This is a
+						<label>Vegetarian</label> product.</p>
+					
+					<p>
+						{{product.product_details | safe}}
+					</p>
+					<p>
+						<i class="fa fa-refresh" aria-hidden="true"></i>All food products are
+						<label>non-returnable.</label>
+					</p>
+				</div>
+				<div class="occasion-cart">
+					<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+						<form action="/add-cart/{{product.id}}" method="post">
+							{% csrf_token %}
+							<fieldset>
+								<input type="hidden" name="next" value="{{ request.path }}">
+								<input type="submit" name="submit" value="Add to cart" class="button" />
+							</fieldset>
+						</form>
+					</div>
+
+				</div>
+
+			</div>
+			<div class="clearfix"> </div>
+		</div>
+		{% endfor %}
+	</div>
+	<!-- //Single Page -->
+	<!-- special offers -->
+	<div class="featured-section" id="projects">
+		<div class="container">
+			<!-- tittle heading -->
+			<h3 class="tittle-w3l">Add More
+				<span class="heading-style">
+					<i></i>
+					<i></i>
+					<i></i>
+				</span>
+			</h3>
+			<!-- //tittle heading -->
+			<div class="content-bottom-in">
+				<ul id="flexiselDemo1">
+					{% for product in related_products %}
+					<li>
+						<div class="w3l-specilamk">
+							<div class="speioffer-agile">
+								<a href="/single/{{product.id}}">
+									<img src="{{product.main_img.url}}" alt="">
+								</a>
+							</div>
+							<div class="product-name-w3l">
+								<h4>
+									<a href="/single/{{product.id}}">{{product.name}}</a>
+								</h4>
+								<div class="w3l-pricehkj">
+									<h6>${{product.price}}</h6>
+									<p>Save ${{product.mrp|sub:product.price}}</p>
+								</div>
+								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
+									<form action="/add-cart/{{product.id}}" method="post">
+										{% csrf_token %}
+										<fieldset>
+											<input type="hidden" name="next" value="{{ request.path }}">
+											<input type="submit" name="submit" value="Add to cart" class="button" />
+										</fieldset>
+									</form>
+								</div>
+							</div>
+						</div>
+					</li>	
+									
+					{% endfor %}
+					
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- //special offers -->
+{% endblock %}
+

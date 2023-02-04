@@ -1,0 +1,147 @@
+{% extends '01-admin-base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container tm-mt-big tm-mb-big">
+  <h2 style="text-align: center; color: white;">Update Deal <i class='fas fa-gift'></i></h2>
+  <div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 mx-auto">
+      <div class="tm-bg-primary-dark tm-block tm-block-h-auto">
+        <div class="row tm-edit-product-row">
+          <div class="col-xl-6 col-lg-6 col-md-12">
+            <form action="/dashboard/edit-deal/{{deal.id}}" method="post" class="tm-edit-product-form" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="form-group mb-3">
+                <label
+                  for="name"
+                  >Deal Name
+                </label>
+                <input
+                id="name"
+                name="name"
+                type="text"
+                value="{{deal.name}}"
+                class="form-control validate"
+                />
+              </div>
+              <div class="form-group mb-3">
+                <label
+                for="offer_line"
+                >Offer Line</label
+                >
+                <input
+                id="offer_line"
+                name="offer_line"
+                type="text"
+                value="{{deal.offer_line}}"
+                class="form-control validate"
+                />
+              </div>
+              
+              <div class="row">
+                  <div class="form-group mb-3 col-xs-12 col-sm-6">
+                      <label
+                        for="start_date"
+                        >Start Date
+                      </label>
+                      <input
+                        id="start_date"
+                        name="start_date"
+                        type="datetime-local"
+                        value="{{deal.start_date}}"
+                        class="form-control validate"
+                        data-large-mode="true"
+                      />
+                    </div>
+                    <div class="form-group mb-3 col-xs-12 col-sm-6">
+                      <label
+                        for="end_date"
+                        >End Date
+                      </label>
+                      <input
+                        id="end_date"
+                        name="end_date"
+                        type="datetime-local"
+                        value="{{deal.end_date}}"
+                        class="form-control validate"
+                      />
+                    </div>
+              </div>
+              
+          </div>
+
+          <div class="col-xl-6 col-lg-6 col-md-12 mx-auto mb-4">
+            <div class="tm-product-img-edit mx-auto">
+              <img src="{{deal.banner.url}}" alt="Product image" class="img-fluid d-block mx-auto">
+              <i
+                class="fas fa-cloud-upload-alt tm-upload-icon"
+                onclick="document.getElementById('fileInput').click();"
+              ></i>
+            </div>
+            <div class="custom-file mt-3 mb-3">
+              <input
+                type="file" accept="image/*"
+                class="btn btn-primary btn-block mx-auto"
+                name="banner"
+              />
+            </div>
+          </div>
+
+          <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 tm-block-col">
+            <div class="tm-bg-primary-dark tm-block tm-block-products">
+              <div class="form-group mb-3">
+                <label
+                for="products"
+                >Products</label
+                >
+                <div class="tm-product-table-container" style="background-color: #526d83;"> 
+                  {% for product in allproducts %}  
+                  {% if product in deal.products.all %}
+                  <input
+                  id="products"
+                  name="products{{product.id}}"
+                  type="checkbox"
+                  value="{{product.id}}"
+                  class="form-control validate"
+                  checked 
+                  />
+                  <label
+                  for="products"
+                >{{product}}</label
+                >
+                {% else %}
+                  <input
+                  id="products"
+                  name="products{{product.id}}"
+                  type="checkbox"
+                  value="{{product.id}}"
+                  class="form-control validate"
+                  />
+                  <label
+                  for="products"
+                >{{product}}</label
+                >
+                {% endif %}  
+                {% endfor %} 
+              </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-primary btn-block text-uppercase">Update Now</button>
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+   
+{% endblock content %}
+
+   
