@@ -124,6 +124,9 @@ USE_TZ = True
 # To solve static files load issue on aws
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 
+import mimetypes
+mimetypes.add_type("text/css", ".css", True)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
