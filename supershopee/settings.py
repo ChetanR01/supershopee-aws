@@ -144,6 +144,14 @@ STATIC_ROOT = os.path.join(BASE_DIR,'assets','www','static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
+# Amazon S3 Bucket for image storage
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID ="AKIAVGPLKKT4APK3YGMW"
+AWS_SECRET_ACCESS_KEY ="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"
+AWS_STORAGE_BUCKET_NAME ="supershopee"
+
+AWS_QUERYSTRING_AUTH = False
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
