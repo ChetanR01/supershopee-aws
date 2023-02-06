@@ -2,7 +2,7 @@ from unicodedata import category
 from .models import Category, SubCategory, Cart
 
 def pass_cat_nd_sub_cat(request):
-    all_categories = Category.objects.all()
+    all_categories = Category.objects.all().order_by("id")
     sub_categories = SubCategory.objects.all()
     if request.user.is_authenticated:
         try:

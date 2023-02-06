@@ -26,23 +26,16 @@ def get_subcategory(request):
     return HttpResponse(json.dumps(result), content_type="application/json")
 
 
-# for Payment Gateway
-from django.views.decorators.csrf import csrf_exempt
-@csrf_exempt
-def handel_request(request):
-    pass
-
 # Create your views here.
 def index(request):
     products = ProductDetails.objects.all()
     deals = Deal.objects.filter(end_date__gte=datetime.datetime.now())
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
-    return render(request, "index.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":products,"deals":deals})
+    categories= Category.objects.all()
+    return render(request, "index.html", {"categories":categories,"products":products,"deals":deals})
 
 def product(request):
     deals = Deal.objects.all()
-    products = ProductDetails.objects.all()
+    products = ProductDetails.objects.all().order_by("name")
 
     p = Paginator(products, 21)
     page_no= request.GET.get('page')
@@ -68,23 +61,12 @@ def product(request):
         no_col= 6
     elif len(page_obj) <= 21:
         no_col= 7
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
-    return render(request, "product.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":page_obj,"no_col":no_col,"deals":deals})
+    return render(request, "product.html", {"products":page_obj,"no_col":no_col,"deals":deals})
 
 def deal_product(request,id):
     deals = Deal.objects.all()
     deal_product = Deal.objects.get(id=id)
-    products = deal_product.products.all()
-
-    print("Products",products)
-    # print("Deal Products",deal_product)
-    # print("Deal Products. products",deal_product)
-    # for products in deal_product:
-    #     # for products in deal.products:
-    #     no_pro = len(products)
-    #     print("No product",no_pro)
-
+    products = deal_product.products.all().order_by("name")
 
     p = Paginator(products, 21)
     page_no= request.GET.get('page')
@@ -110,29 +92,20 @@ def deal_product(request,id):
         no_col= 6
     elif len(page_obj) <= 21:
         no_col= 7
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
-    return render(request, "deal-product.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":page_obj,"no_col":no_col,"deals":deals,"deal_product":deal_product})
+    return render(request, "deal-product.html", {"products":page_obj,"no_col":no_col,"deals":deals,"deal_product":deal_product})
 
 def single(request, id):
     product = ProductDetails.objects.filter(id=id)
     for rel_pro in product:
         rel_category = rel_pro.category
     related_products = ProductDetails.objects.filter(category=rel_category)
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
-    return render(request, "single.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":product,"related_products":related_products})
+    return render(request, "single.html", {"products":product,"related_products":related_products})
 
 def default_search(request):
     deals = Deal.objects.all()
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
     if request.method == "GET":
-        search_for =  request.GET.get('search') 
-        print("Searched for:",search_for)
-    products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for))
-
-    print("Related results",products)
+        search_for =  request.GET.get('search')
+    products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for)).order_by("name")
     
     p = Paginator(products, 21)
     page_no= request.GET.get('page')
@@ -158,15 +131,13 @@ def default_search(request):
         no_col= 6
     elif len(page_obj) <= 21:
         no_col= 7
-    return render(request, "search.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":page_obj,"no_col":no_col,"deals":deals})
+    return render(request, "search.html", {"products":page_obj,"no_col":no_col,"deals":deals})
 
 
 def search(request,search_type,id):
     deals = Deal.objects.all()
-    all_categories= Category.objects.all()
-    sub_categories= SubCategory.objects.all()
     if search_type =="category":
-        products = ProductDetails.objects.filter(category=id)
+        products = ProductDetails.objects.filter(category=id).order_by("name")
 
         p = Paginator(products, 21)
         page_no= request.GET.get('page')
@@ -193,9 +164,9 @@ def search(request,search_type,id):
             no_col= 6
         elif len(page_obj) <= 21:
             no_col= 7
-        return render(request, "search.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":page_obj,"no_col":no_col,"deals":deals})
+        return render(request, "search.html", {"products":page_obj,"no_col":no_col,"deals":deals})
     elif search_type =="subcategory":
-        products = ProductDetails.objects.filter(subcategory=id)
+        products = ProductDetails.objects.filter(subcategory=id).order_by("name")
         p = Paginator(products, 21)
         page_no= request.GET.get('page')
 
@@ -220,7 +191,7 @@ def search(request,search_type,id):
             no_col= 6
         elif len(page_obj) <= 21:
             no_col= 7
-        return render(request, "search.html", {"all_categories":all_categories,"sub_categories":sub_categories,"products":page_obj,"no_col":no_col,"deals":deals})
+        return render(request, "search.html", {"products":page_obj,"no_col":no_col,"deals":deals})
         
 
 # add item to cart
@@ -312,14 +283,14 @@ def checkout(request,id):
         messages.info(request,"For checkout Order Value must be more than Rs.10, Please add more products to cart")
         return redirect("/cart")
     # create payment request
-    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="http://localhost:8000/update-payment-status" )
-    print("Response : ",response)
+    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="http://65.0.107.201/update-payment-status" )
+    # print("Response : ",response)
     payment_order_id = response['payment_request']['id']
     for order in orders:
         order.payment_order_id=payment_order_id
         order.save()
     payment_url= response['payment_request']['longurl']
-    print(payment_url)
+    # print(payment_url)
 
     return render(request, "checkout.html", {"orders":orders,"grand_total":grand_total,"order_id":id,"payment_url":payment_url})
 

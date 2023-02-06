@@ -79,7 +79,7 @@
 						</li>
 						<li>
 							Save:
-							<span class="item_price">${{product.mrp|sub:product.price}}</span>
+							<span class="item_price">${{product.mrp|sub:product.price|floatformat:-2}}</span>
 						</li>
 					</ul>
 				</div>
@@ -130,6 +130,7 @@
 			<div class="content-bottom-in">
 				<ul id="flexiselDemo1">
 					{% for product in related_products %}
+					{% if forloop.counter < 15 %}
 					<li>
 						<div class="w3l-specilamk">
 							<div class="speioffer-agile">
@@ -143,7 +144,7 @@
 								</h4>
 								<div class="w3l-pricehkj">
 									<h6>${{product.price}}</h6>
-									<p>Save ${{product.mrp|sub:product.price}}</p>
+									<p>Save ${{product.mrp|sub:product.price|floatformat:-2}}</p>
 								</div>
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form action="/add-cart/{{product.id}}" method="post">
@@ -157,7 +158,7 @@
 							</div>
 						</div>
 					</li>	
-									
+					{% endif %}	
 					{% endfor %}
 					
 				</ul>

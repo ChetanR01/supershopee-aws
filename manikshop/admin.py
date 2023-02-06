@@ -24,7 +24,7 @@ admin.site.register(User, CustomizedUserAdmin)
 # TO Modify SubCategory view for admin
 class SubCategoryAdmin(admin.ModelAdmin):
     list_display = ['name','category']
-    # list_editable = ['verified']
+    list_filter = ('category',)
 admin.site.register(SubCategory, SubCategoryAdmin)
 
 # TO Modify Product Detalis view for admin
@@ -32,13 +32,13 @@ class ProductDetailsAdmin(admin.ModelAdmin):
     list_display = ['name','price','mrp','category','trending']
     list_editable = ['price','mrp','trending']
     search_fields = ('name', 'product_details')
-    list_filter = ('category',)
+    list_filter = ('category','subcategory')
 admin.site.register(ProductDetails, ProductDetailsAdmin)
 
 # TO Modify Order view for admin
 class OrderAdmin(admin.ModelAdmin):
     list_display = ['order_id','date','product','quantity','total_cost','order_status']
-    list_filter = ('order_id',)
+    list_filter = ('date','order_status','order_id',)
     # list_editable = ['price','mrp','trending']
 admin.site.register(Order, OrderAdmin)
 
@@ -57,4 +57,5 @@ admin.site.register(Subscription, SubscriptionAdmin)
 # Conatct form data
 class ContactFormAdmin(admin.ModelAdmin):
     list_display = ['name','date','subject']
+    list_filter = ('date',)
 admin.site.register(Contact_form, ContactFormAdmin)

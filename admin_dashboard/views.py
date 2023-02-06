@@ -482,6 +482,9 @@ def create_user(request,user_type):
                 password= request.POST['password']
                 confirm_password= request.POST['confirm_password']
 
+                if is_staff:
+                    username= request.POST['username']
+
                 if password == confirm_password:
                     if User.objects.filter(username=username).exists():
                         messages.info(request,"Username is Already Used!")
