@@ -283,7 +283,7 @@ def checkout(request,id):
         messages.info(request,"For checkout Order Value must be more than Rs.10, Please add more products to cart")
         return redirect("/cart")
     # create payment request
-    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="http://65.0.107.201/update-payment-status" )
+    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="http://store.crrathod.tech/update-payment-status" )
     # print("Response : ",response)
     payment_order_id = response['payment_request']['id']
     for order in orders:
