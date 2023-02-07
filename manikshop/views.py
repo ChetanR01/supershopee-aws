@@ -247,6 +247,12 @@ def track_order(request):
 
 # to create order item from cart
 def create_order(request):
+    # check address before order
+    extended_user = Extended_user.objects.get(user=request.user.id)
+    if extended_user.address == "Not Available" or None:
+        messages.info(request,"Please add your address before Checkout")
+        return redirect("/cart")
+        
     if request.method== "POST":
         item_count = request.POST['item_count']
         product_dict = {}
@@ -283,7 +289,7 @@ def checkout(request,id):
         messages.info(request,"For checkout Order Value must be more than Rs.10, Please add more products to cart")
         return redirect("/cart")
     # create payment request
-    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="http://store.crrathod.tech/update-payment-status" )
+    response = api.payment_request_create(amount=grand_total,purpose=f"Transaction for Order ID: {id}",buyer_name=request.user.first_name,email=request.user.email,redirect_url="https://store.crrathod.tech/update-payment-status" )
     # print("Response : ",response)
     payment_order_id = response['payment_request']['id']
     for order in orders:

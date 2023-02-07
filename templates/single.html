@@ -65,8 +65,8 @@
 			<div class="col-md-7 single-right-left simpleCart_shelfItem">
 				<h3>{{product.name}}</h3>
 				<p>
-					<span class="item_price">${{product.price}}</span>
-					<del>${{product.mrp}}</del>
+					<span class="item_price">₹{{product.price}}</span>
+					<del>₹{{product.mrp}}</del>
 					<label>Free delivery</label>
 				</p>
 				<div class="single-infoagile">
@@ -79,7 +79,7 @@
 						</li>
 						<li>
 							Save:
-							<span class="item_price">${{product.mrp|sub:product.price|floatformat:-2}}</span>
+							<span class="item_price">₹{{product.mrp|sub:product.price|floatformat:-2}}</span>
 						</li>
 					</ul>
 				</div>
@@ -143,8 +143,8 @@
 									<a href="/single/{{product.id}}">{{product.name}}</a>
 								</h4>
 								<div class="w3l-pricehkj">
-									<h6>${{product.price}}</h6>
-									<p>Save ${{product.mrp|sub:product.price|floatformat:-2}}</p>
+									<h6>₹{{product.price}}</h6>
+									<p>Save ₹{{product.mrp|sub:product.price|floatformat:-2}}</p>
 								</div>
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form action="/add-cart/{{product.id}}" method="post">

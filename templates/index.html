@@ -102,7 +102,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<a href="/single/{{product.id}}"><h3>{{product.name}}</h3></a>
-							<a href="/single/{{product.id}}">${{product.price}}</a>
+							<a href="/single/{{product.id}}">₹{{product.price}}</a>
 						</div>
 						<div class="clearfix"></div>
 					</div>
@@ -138,8 +138,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 										<a href="/single/{{product.id}}">{{product.name}}</a>
 									</h4>
 									<div class="info-product-price">
-										<span class="item_price">${{product.price}}</span>
-										<del>${{product.mrp}}</del>
+										<span class="item_price">₹{{product.price}}</span>
+										<del>₹{{product.mrp}}</del>
 									</div>
 									<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 										<form action="/add-cart/{{product.id}}" method="post">
@@ -210,8 +210,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 									<a href="/single/{{product.id}}">{{product.name}}</a>
 								</h4>
 								<div class="w3l-pricehkj">
-									<h6>${{product.price}}</h6>
-									<p>Save ${{product.mrp|sub:product.price|floatformat:-2}}</p>
+									<h6>₹{{product.price}}</h6>
+									<p>Save ₹{{product.mrp|sub:product.price|floatformat:-2}}</p>
 								</div>
 								<div class="snipcart-details top_brand_home_details item_add single-item hvr-outline-out">
 									<form action="/add-cart/{{product.id}}" method="post">
