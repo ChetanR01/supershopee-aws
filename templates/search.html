@@ -19,11 +19,17 @@
 						<a href="/">Home</a>
 						<i>|</i>
 					</li>
+					{% if search_for %}
+					<li>Results For: {{search_for}}</li>
+					
+					{% else %}
 					{% for product in products %}
 					{% if forloop.first %}
 					<li>{{product.category}}</li>
 					{% endif %}
 					{% endfor %}
+					
+					{% endif %}
 				</ul>
 			</div>
 		</div>
@@ -33,11 +39,16 @@
 	<div class="ads-grid">
 		<div class="container">
 			<!-- tittle heading -->
-			<h3 class="tittle-w3l">{% for product in products %}
+			<h3 class="tittle-w3l">
+				{% if search_for %}
+				Results For: {{search_for}}
+				{% else %}
+				{% for product in products %}
 				{% if forloop.first %}
 				{{product.category}}
 				{% endif %}
 				{% endfor %}
+				{% endif %}
 				<span class="heading-style">
 					<i></i>
 					<i></i>
@@ -110,6 +121,7 @@
 											<fieldset>
 												{% csrf_token %}
 												<input type="hidden" name="next" value="{{ request.path }}">
+												<input type="hidden" name="current_url" value="{{ request.get_full_path }}">
 												<input type="submit" name="submit" value="Add to cart" class="button" />
 											</fieldset>
 										</form>
@@ -132,7 +144,7 @@
 						<ul class="pagination justify-content-center">
 						{% if products.has_previous %}
 						  <li class="page-item">
-							<a class="page-link" href="?page={{ products.previous_page_number }}" tabindex="-1">Previous</a>
+							<a class="page-link" href="?search={{search_for}}&page={{ products.previous_page_number }}" tabindex="-1">Previous</a>
 						  </li>
 						  {% else %}
 						  <li class="page-item disabled">
@@ -142,7 +154,7 @@
 						  <li class="page-item"><a class="page-link" href="#">{{products.number}}</a></li>
 						  {%if products.has_next %}
 						  <li class="page-item">
-							<a class="page-link" href="?page={{products.next_page_number}}">Next <i class="fa fa-angle-double-right"></i></a>
+							<a class="page-link" href="?search={{search_for}}&page={{products.next_page_number}}">Next <i class="fa fa-angle-double-right"></i></a>
 						  </li>
 						  {% else %}
 						  <li class="page-item disabled">

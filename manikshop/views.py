@@ -105,7 +105,7 @@ def default_search(request):
     deals = Deal.objects.all()
     if request.method == "GET":
         search_for =  request.GET.get('search')
-    products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for)).order_by("name")
+        products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for)).order_by("name")
     
     p = Paginator(products, 21)
     page_no= request.GET.get('page')
@@ -131,7 +131,7 @@ def default_search(request):
         no_col= 6
     elif len(page_obj) <= 21:
         no_col= 7
-    return render(request, "search.html", {"products":page_obj,"no_col":no_col,"deals":deals})
+    return render(request, "search.html", {"products":page_obj,"no_col":no_col,"deals":deals,"search_for":search_for})
 
 
 def search(request,search_type,id):
@@ -209,12 +209,16 @@ def add_cart(request,id):
                 new_cart.products.add(id)
                 messages.info(request,"Item Added to Cart")
                 new_cart.save()
-            next = request.POST.get('next', '/')
-            return HttpResponseRedirect(next)
+            current_url = request.POST.get('current_url')
+            if current_url:
+                return HttpResponseRedirect(current_url)
+            else:
+                current_url = request.POST.get('next')
+                return HttpResponseRedirect(current_url)
         else:
             messages.info(request, "Please login before adding products to cart")
-            next = request.POST.get('next', '/')
-            return HttpResponseRedirect(next)
+            current_url = request.POST.get('current_url')
+            return HttpResponseRedirect(current_url)
             
 
     next = request.POST.get('next', '/')
