@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import environ
+# Initialise environment variables
+env = environ.Env()
+environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -87,11 +91,11 @@ WSGI_APPLICATION = 'supershopee.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME':'supershopee',
-        'HOST':'database-1.cigvnr2bisyy.ap-south-1.rds.amazonaws.com',
-        'USER':'postgres',
-        'PASSWORD':'crrathod7744',
-        'PORT':'5432'
+        'NAME': env("DATABASE_NAME"),
+        'HOST': env('DB_HOST'),
+        'USER': env("DB_USER"),
+        'PASSWORD': env("DB_PASSWORD"),
+        'PORT':env("DB_PORT")
     }
 }
 
@@ -149,9 +153,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 
 # Amazon S3 Bucket for image storage
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-AWS_ACCESS_KEY_ID ="AKIAVGPLKKT4APK3YGMW"
-AWS_SECRET_ACCESS_KEY ="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"
-AWS_STORAGE_BUCKET_NAME ="supershopee"
+AWS_ACCESS_KEY_ID = env("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = env("AWS_SECRET_ACCESS_KEY")
+AWS_STORAGE_BUCKET_NAME = env("AWS_STORAGE_BUCKET_NAME")
 
 AWS_QUERYSTRING_AUTH = False
 
@@ -164,10 +168,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'crrathod.tech@gmail.com'
-EMAIL_HOST_PASSWORD ='dindgmotqoubbuno'
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 
 # From Payment Gateway
-API_KEY = "test_54bb46de5e3bfd70ae17656b895"
-AUTH_TOKEN = "test_1a2a5b7eb0d4190e7d0358d869d"
-SALT = "6dc66e97aee14fd4a0751af12612dc72"
+API_KEY = env("API_KEY")
+AUTH_TOKEN = env("AUTH_TOKEN")
+SALT = env("SALT")
