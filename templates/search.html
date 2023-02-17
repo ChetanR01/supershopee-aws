@@ -74,7 +74,7 @@
 					{% for product in deal.products.all %}
 					<div class="special-sec1">
 						<div class="col-xs-4 img-deals">
-							<img src="{{product.main_img.url}}" alt="">
+							<img src="{{product.main_img.url}}" alt="" style="max-width: 4.5em; max-height: 4.5em;" >
 						</div>
 						<div class="col-xs-8 img-deal1">
 							<a href="/single/{{product.id}}"><h3>{{product.name}}</h3></a>
