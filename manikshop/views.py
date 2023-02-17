@@ -105,7 +105,7 @@ def default_search(request):
     deals = Deal.objects.all()
     if request.method == "GET":
         search_for =  request.GET.get('search')
-        products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for)).order_by("name")
+        products = ProductDetails.objects.filter(Q(name__icontains=search_for)| Q(product_details__icontains=search_for)| Q(category__name__icontains=search_for)| Q(subcategory__name__icontains=search_for)).order_by("name")
     
     p = Paginator(products, 21)
     page_no= request.GET.get('page')
